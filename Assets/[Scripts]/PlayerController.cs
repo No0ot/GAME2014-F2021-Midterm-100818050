@@ -28,13 +28,34 @@ public class PlayerController : MonoBehaviour
     {
         m_touchesEnded = new Vector3();
         m_rigidBody = GetComponent<Rigidbody2D>();
+        switch (Screen.orientation)
+        {
+            case ScreenOrientation.Landscape:
+                transform.position = new Vector3(-4f,0f,0f);
+                transform.rotation = Quaternion.Euler(0, 0, -90);
+                break;
+            case ScreenOrientation.Portrait:
+                transform.position = new Vector3(0f, -4f, 0f);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        _Move();
-        _CheckBounds();
+        Debug.Log(Screen.orientation);
+        switch(Screen.orientation)
+        {
+            case ScreenOrientation.Landscape:
+                _MoveY();
+                _CheckBoundsY();
+                break;
+            case ScreenOrientation.Portrait:
+                _Move();
+                _CheckBounds();
+                break;
+        }
         _FireBullet();
     }
 
@@ -97,6 +118,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void _MoveY()
+    {
+        float direction = 0.0f;
+
+        // touch input support
+        foreach (var touch in Input.touches)
+        {
+            var worldTouch = Camera.main.ScreenToWorldPoint(touch.position);
+
+            if (worldTouch.y > transform.position.y)
+            {
+                // direction is positive
+                direction = 1.0f;
+            }
+
+            if (worldTouch.y < transform.position.y)
+            {
+                // direction is negative
+                direction = -1.0f;
+            }
+
+            m_touchesEnded = worldTouch;
+
+        }
+
+        // keyboard support
+        if (Input.GetAxis("Vertical") >= 0.1f)
+        {
+            // direction is positive
+            direction = 1.0f;
+        }
+
+        if (Input.GetAxis("Vertical") <= -0.1f)
+        {
+            // direction is negative
+            direction = -1.0f;
+        }
+
+        if (m_touchesEnded.y != 0.0f)
+        {
+            transform.position = new Vector2(transform.position.x, Mathf.Lerp(transform.position.y, m_touchesEnded.y, horizontalTValue));
+        }
+        else
+        {
+            Vector2 newVelocity = m_rigidBody.velocity + new Vector2(0.0f, direction * horizontalSpeed);
+            m_rigidBody.velocity = Vector2.ClampMagnitude(newVelocity, maxSpeed);
+            m_rigidBody.velocity *= 0.99f;
+        }
+    }
+
     private void _CheckBounds()
     {
         // check right bounds
@@ -109,6 +180,22 @@ public class PlayerController : MonoBehaviour
         if (transform.position.x <= -horizontalBoundary)
         {
             transform.position = new Vector3(-horizontalBoundary, transform.position.y, 0.0f);
+        }
+
+    }
+
+    private void _CheckBoundsY()
+    {
+        // check right bounds
+        if (transform.position.y >= horizontalBoundary)
+        {
+            transform.position = new Vector3(transform.position.x, horizontalBoundary, 0.0f);
+        }
+
+        // check left bounds
+        if (transform.position.y <= -horizontalBoundary)
+        {
+            transform.position = new Vector3(transform.position.x, -horizontalBoundary, 0.0f);
         }
 
     }
