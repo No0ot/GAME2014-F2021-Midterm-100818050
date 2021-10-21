@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//      Author          : Chris Tulip , Tom Tsiliopoulos
+//      StudentID       : 100818050
+//      Date Modified   : October 20, 2021
+//      File            : EnemyController.cs
+//      Description     : This controls the enemy behaviour
+//      History         : v1.0 - Implented additonal functions and applied them based on screen orientation
+//
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +16,7 @@ public class EnemyController : MonoBehaviour
     public float direction;
     private void Start()
     {
+        // Switch case on start to set the position and rotation of the enemy based on screen orientation
         switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
@@ -22,6 +30,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Switch case to switch between functionalitys based on screen orientation
         switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
@@ -39,7 +48,9 @@ public class EnemyController : MonoBehaviour
     {
         transform.position += new Vector3(horizontalSpeed * direction * Time.deltaTime, 0.0f, 0.0f);
     }
-
+    /// <summary>
+    /// Function for moving the enemy in Landscape Orientation
+    /// </summary>
     private void _MoveY()
     {
         transform.position += new Vector3(0.0f, horizontalSpeed * direction * Time.deltaTime, 0.0f);
@@ -59,7 +70,9 @@ public class EnemyController : MonoBehaviour
             direction = 1.0f;
         }
     }
-
+    /// <summary>
+    /// Function for checking the bounds for landscape orientation
+    /// </summary>
     private void _CheckBoundsY()
     {
         // check right boundary

@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿//      Author          : Chris Tulip , Tom Tsiliopoulos
+//      StudentID       : 100818050
+//      Date Modified   : October 20, 2021
+//      File            : PlayerController.cs
+//      Description     : This controls the player and updates the player based on screen orientation
+//      History         : v1.0 - Implemented switch case on start to change the initial position and rotation based on screen orientation
+//                        v0.9 - Duplicated and edited functions in update to reflect a landscape orientation, switches between them based on screen orientation
+//
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEditor;
@@ -28,10 +36,12 @@ public class PlayerController : MonoBehaviour
     {
         m_touchesEnded = new Vector3();
         m_rigidBody = GetComponent<Rigidbody2D>();
+        
+        // Switch case on start to set the position and rotation of the player based on screen orientation
         switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
-                transform.position = new Vector3(-4f,0f,0f);
+                transform.position = new Vector3(-3f,0f,0f);
                 transform.rotation = Quaternion.Euler(0, 0, -90);
                 break;
             case ScreenOrientation.Portrait:
@@ -44,8 +54,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Screen.orientation);
-        switch(Screen.orientation)
+        // Switch case to switch between functionalitys based on screen orientation
+        switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
                 _MoveY();
@@ -117,7 +127,9 @@ public class PlayerController : MonoBehaviour
             m_rigidBody.velocity *= 0.99f;
         }
     }
-
+    /// <summary>
+    /// Function for moving the player in Landscape Orientation
+    /// </summary>
     private void _MoveY()
     {
         float direction = 0.0f;
@@ -183,7 +195,9 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// Function for checking the bounds for landscape orientation
+    /// </summary>
     private void _CheckBoundsY()
     {
         // check right bounds

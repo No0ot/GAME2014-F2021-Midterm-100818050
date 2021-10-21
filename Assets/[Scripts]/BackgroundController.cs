@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//      Author          : Chris Tulip , Tom Tsiliopoulos
+//      StudentID       : 100818050
+//      Date Modified   : October 20, 2021
+//      File            : BackgroundController.cs
+//      Description     : This controls the background behaviour
+//      History         : v1.0 - Implented additonal functions and applied them based on screen orientation
+//
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +16,7 @@ public class BackgroundController : MonoBehaviour
 
     private void Start()
     {
+        // Switch case on start to set the position and rotation of the background based on screen orientation
         switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
@@ -22,6 +30,7 @@ public class BackgroundController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Switch case to switch between functionalitys based on screen orientation
         switch (Screen.orientation)
         {
             case ScreenOrientation.Landscape:
@@ -39,7 +48,9 @@ public class BackgroundController : MonoBehaviour
     {
         transform.position = new Vector3(0.0f, verticalBoundary);
     }
-
+    /// <summary>
+    /// Function to reset the background position for landscape orientation
+    /// </summary>
     private void _ResetY()
     {
         transform.position = new Vector3(verticalBoundary, 0.0f);
@@ -49,7 +60,9 @@ public class BackgroundController : MonoBehaviour
     {
         transform.position -= new Vector3(0.0f, verticalSpeed) * Time.deltaTime;
     }
-
+    /// <summary>
+    /// Function for moving the background in Landscape Orientation
+    /// </summary>
     private void _MoveY()
     {
         transform.position -= new Vector3(verticalSpeed, 0.0f) * Time.deltaTime;
@@ -63,7 +76,9 @@ public class BackgroundController : MonoBehaviour
             _Reset();
         }
     }
-
+    /// <summary>
+    /// Function for checking the bounds for landscape orientation
+    /// </summary>
     private void _CheckBoundsY()
     {
         // if the background is lower than the bottom of the screen then reset
