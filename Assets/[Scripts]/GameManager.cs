@@ -12,7 +12,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Camera camera;
-
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
                 camera.orthographicSize = 5.0f;
                 break;
         }
-
     }
 
 }
